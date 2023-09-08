@@ -22,7 +22,7 @@ func main() {
 		Username: userName,
 		Password: pass,
 	}
-	clientOptions := options.Client().ApplyURI("mongodb://hodor-mongo:27017").SetAuth(credential)
+	clientOptions := options.Client().ApplyURI("mongodb://mongodb-sharded:27017/?authSource=admin").SetAuth(credential)
 
 	// Connect to MongoDB
 	client, err := mongo.Connect(context.Background(), clientOptions)
