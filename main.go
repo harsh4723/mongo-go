@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -12,7 +13,16 @@ import (
 
 func main() {
 	log.Print("Init....")
-	clientOptions := options.Client().ApplyURI("mongodb://hodor-mongo:27017")
+	userName := os.Getenv("MONGO_USER")
+	pass := os.Getenv("MONGO_PASS")
+
+	log.Printf("Mongo user %v\n", userName)
+
+	credential := options.Credential{
+		Username: userName,
+		Password: pass,
+	}
+	clientOptions := options.Client().ApplyURI("mongodb://hodor-mongo:27017").SetAuth(credential)
 
 	// Connect to MongoDB
 	client, err := mongo.Connect(context.Background(), clientOptions)
